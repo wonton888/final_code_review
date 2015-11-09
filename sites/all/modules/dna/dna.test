@@ -1,7 +1,7 @@
 <?php 
 
 
- class DnaTests extends DrupalUnitTestCase
+ class DnaTests extends DrupalWebTestCase
  {
  	public static function getInfo() {
  		return array(
