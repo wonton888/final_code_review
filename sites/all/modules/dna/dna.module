@@ -1,0 +1,71 @@
+<?php 
+
+function dna_menu() {
+	$items['dna'] = array(
+		'title' => 'DNA pair',
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('dna_form'),
+		'access callback' => TRUE,
+		'type' => MENU_NORMAL_ITEM,
+	);
+
+	$items['success'] = array(
+		'title' => 'DNA matches',
+		'page callback' => 'dna_form_success',
+		'access callback' => TRUE,
+		'type' => MENU_CALLBACK,
+	);
+	return $items;
+}
+
+function dna_form() {
+	$form['string'] = array(
+		'#title' => 'Enter your DNA base pair string to translate',
+		'#type' => 'textfield',
+		'#description' => t('Enter your DNA string'),
+		'#element_validate' => array('element_validate_letters'),
+		'#required' => TRUE,
+		);
+		$form['submit'] = array(
+			'#type' => 'submit',
+			'#value' => 'enter',
+		);
+		return $form;
+}
+
+function dna_form_submit($form, &$form_state) {
+	$_SESSION['input'] = $form_state['values']['string'];
+	$_SESSION['output'] = helix($form_state['values']['string']);
+	$form_state['redirect'] = 'success';
+
+}
+
+
+function dna_form_success() {
+	$return_this = 'Helix 1: ' . $_SESSION['input'] . '</br>' . 'Helix 2: ' . $_SESSION['output'];
+	return $return_this;
+}
+
+function helix($input_string) {
+	$base_pairs = ['A' => 'T' , 'T' => 'A', 'C' => 'G', 'G' => 'C'];
+	$output_dna = '';
+	$split = str_split($input_string);
+
+	foreach($split as $element) {
+		$output_dna .= $base_pairs[$element];
+	}
+	return $output_dna;
+}
+
+function element_validate_letters($element) {
+	$input = $element['#value'];
+	$base_pairs = ['A', 'T', 'G', 'C'];
+
+	for ($i = 0; $i < strlen($input); $i++) {
+		if (! in_array($input[$i], $base_pairs)) {
+			form_error($element, t('Please enter a string containing ATGCs only'));
+		}
+	}
+}
+
+

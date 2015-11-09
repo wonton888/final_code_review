@@ -1,0 +1,20 @@
+<?php  
+function mymodule_ajax_callback($js, $node_id) {
+  $node = node_load($node_id);
+
+  if ($js == 'nojs') {
+    drupal_goto('node/' . $node->nid);
+  }
+
+  
+  $build = node_view($node);
+  $html = render($build);
+
+ 
+  $commands = array();
+  $commands[] = ajax_command_html('#mymodule-ajax-wrapper', $html);
+
+  
+  print ajax_render($commands);
+  exit;  
+}

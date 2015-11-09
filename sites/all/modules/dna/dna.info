@@ -1,0 +1,7 @@
+name = DNA
+description = Module that returns a corresponding DNA base pair(s) 
+package = Epicodus Examples
+core = 7.x 
+files[] = dna.module
+files[] = dna.test
+dependencies[] = simpletest

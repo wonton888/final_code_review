@@ -1,0 +1,52 @@
+<?php 
+
+
+ class DnaTestCase extends DrupalUnitTestCase
+ {
+ 	public static function getInfo() {
+ 		return array(
+ 			'name' => 'dna tests',
+ 			'description' => 'DNA module tests',
+ 			'group' => 'DNA tests',
+ 		);
+ 	}
+ 	function testHelix()
+ 	{
+ 		$description = 'input of string A should return T';
+ 		$input =  'A';
+ 		$result = helix($input);
+ 		$expected = 'T';
+ 		$this->assertEqual($result, $expected, $description);
+
+ 		$description = 'input of string TA should return AT'
+ 		$input = 'TA';
+ 		$result = helix($input);
+ 		$expected = 'AT'; 
+ 		$this->assertEqual($result, $expected, $description);
+
+ 		$description = 'input of string C should return G';
+ 		$input = 'C';
+ 		$result = helix($input);
+ 		$expected = 'G';
+ 		$this->assertEqual($result, $expected, $description);
+
+ 		$description = 'input of string of G should return C';
+ 		$input = 'G';
+ 		$result = helix($input);
+ 		$expected = 'C';
+ 		$this->assertEqual($result, $expected, $description);
+
+ 		$description = 'input of GC should return CG';
+ 		$input = 'GC';
+ 		$result = helix($input);
+ 		$expected = 'CG';
+ 		$this->assertEqual($result, $expected, $description);
+
+ 		$description = 'input of GCAT should return CGTA';
+ 		$input = 'GCAT';
+ 		$result = helix($input);
+ 		$expected = 'CGTA';
+ 		$this->assertEqual($result, $expected, $description);
+
+ 	}
+ }
